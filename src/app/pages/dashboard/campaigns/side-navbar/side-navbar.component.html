@@ -1,0 +1,95 @@
+
+<div class="navbar-wrap">
+  <div class="navbar-header">
+    <i class="icon fa fa-times-circle-o pull-left" style="font-size:22px;"  (click)="close($event)"></i>
+    {{ title }}
+  </div>
+  <div class="navbar-content">
+      <form [formGroup]="campaignForm">
+        <div class="row">
+          <div class="col-md-6">
+            <md-input-container class="mb-6">
+              <input mdInput placeholder="Campaign Name" [formControl]="campaignForm.controls['campaignName']">
+              <small *ngIf="campaignForm.controls['campaignName'].hasError('required') && campaignForm.controls['campaignName'].touched" class="form-message text-danger">You must include a campaign name.</small>
+              <small *ngIf="campaignForm.controls['campaignName'].hasError('minlength') && campaignForm.controls['campaignName'].touched" class="form-message text-danger">Your campaign name must be at least 5 characters long.</small>
+              <small *ngIf="campaignForm.controls['campaignName'].hasError('maxlength') && campaignForm.controls['campaignName'].touched" class="form-message text-danger">Your campaign name cannot exceed 10 characters.</small>
+            </md-input-container>
+          </div>
+          <div class="col-md-6">
+              <md-select style="margin-top:20px;width:100%" placeholder="Select Trigger"
+                [formControl]="campaignForm.controls['triggerType']">
+                <md-option [value]="'Birthday'">Birthday</md-option>
+                <md-option [value]="'Anniversary'">Anniversary</md-option>
+                <md-option [value]="'NotSeen'">Notseen</md-option>
+                <md-option [value]="'ParticularDate'">Particular Date</md-option>
+                <small *ngIf="campaignForm.controls['triggerType'].hasError('required') && campaignForm.controls['triggerType'].touched" class="form-message text-danger">You must include a first name.</small>
+              </md-select>
+          </div>
+        </div>
+        <div class="row" [hidden]="!campaignForm.controls['triggerType'].value">
+          <div class="col-md-6">
+            <md-input-container class="mb-6" [hidden]="!(campaignForm.controls['triggerType'].value === 'NotSeen' && campaignForm.controls['triggerValue1'].value === 'Custom')">
+              <input mdInput placeholder="Custom" [formControl]="campaignForm.controls['customValue']">
+            </md-input-container>
+            <md-input-container class="mb-6" [hidden]="!(campaignForm.controls['triggerType'].value === 'ParticularDate')">
+              <input mdInput placeholder="Particular Date"
+              [formControl]="campaignForm.controls['particularDate']" type="date">
+            </md-input-container>
+          </div>
+          <div class="col-md-6">
+              <md-select
+                [hidden]="!(campaignForm.controls['triggerType'].value === 'Birthday' || campaignForm.controls['triggerType'].value === 'Anniversary')"
+                style="margin-top:20px;width:100%"
+                placeholder="Condition" 
+                [formControl]="campaignForm.controls['triggerValue']">
+                <md-option [value]="'Today'">Today</md-option>
+                <md-option [value]="'Tomorrow'">Tomorrow</md-option>
+                <md-option [value]="'NextWeek'">Next week</md-option>
+                <md-option [value]="'NextMonth'">Next month</md-option>
+              </md-select>
+              <md-select
+                [hidden]="!(campaignForm.controls['triggerType'].value === 'NotSeen')"
+                style="margin-top:20px;width:100%"
+                placeholder="Not seen" 
+                [formControl]="campaignForm.controls['triggerValue1']">
+                 <md-option [value]="'10'">10 Days</md-option>
+                <md-option [value]="'20'">20 Days</md-option>
+                <md-option [value]="'30'">1 Month</md-option>
+                <md-option [value]="'90'">3 months</md-option>
+                <md-option [value]="'120'">6 months</md-option>
+                <md-option [value]="'365'">1 year</md-option>
+                <md-option [value]="'Custom'">Custom</md-option>
+              </md-select>
+          </div>
+        </div>
+        <div class="row" style="padding-bottom:10px">
+          <div class="col-md-6">
+            <label>Select Message Type:</label>
+            <div style="padding-left:40px"><label>SMS</label></div>
+          </div>
+          <div class="col-md-6"> &nbsp;
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <md-input-container class="mb-6">
+              <textarea mdInput placeholder="Content" rows="4" [formControl]="campaignForm.controls['campaignText']"></textarea>
+              <small *ngIf="campaignForm.controls['campaignText'].hasError('required') && campaignForm.controls['campaignText'].touched" class="form-message text-danger">You must include a first name.</small>
+              <small *ngIf="campaignForm.controls['campaignText'].hasError('minlength') && campaignForm.controls['campaignText'].touched" class="form-message text-danger">Your first name must be at least 30 characters long.</small>
+              <small *ngIf="campaignForm.controls['campaignText'].hasError('maxlength') && campaignForm.controls['campaignText'].touched" class="form-message text-danger">Your first name cannot exceed 500 characters.</small>
+              
+            </md-input-container>
+          </div>
+        </div>
+        <button md-raised-button color="accent" *ngIf="!isUpdate"
+          (click)="saveCampaign()" 
+          type="button" [disabled]="!campaignForm.valid">Save</button>
+        <button md-raised-button color="accent"
+          (click)="updateCampaign()"  *ngIf="isUpdate"
+          type="button" [disabled]="!campaignForm.valid">Update</button>
+        <button md-raised-button color="accent" type="button"
+          (click)="resetForm()" >Reset</button>
+        <button md-raised-button color="accent" type="button" (click)="close($event)" >Cancel</button>
+      </form>
+  </div>
+</div>

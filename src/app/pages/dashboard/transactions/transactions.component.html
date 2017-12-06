@@ -1,0 +1,136 @@
+<ni-card>
+        <transaction-side-navbar 
+        [title] = "title"
+        [showOrHide]="showOrHide" 
+        [isUpload]="isUpload"
+        [isSendSMS]="isSendSMS"
+        [selected]="selected"
+        (saveEvent)="saveModel($event)"
+		 [page]="page"
+        (closeEvent)="closeForm(param)">
+    </transaction-side-navbar>
+    <div class="row">
+        <div class="col-md-6 col-lg-9" >
+            &nbsp;
+        </div>
+        <div class="col-md-2 col-lg-1" >
+            <button  md-raised-button color="primary" *ngIf="permissions.transactions.add" (click)="addTransaction()">Add</button> &nbsp; &nbsp;
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <md-select style="margin-top:20px;width:100%" (change)="changePage($event)" placeholder="Select Trigger">
+                <md-option [value]="'10'">10</md-option>
+                <md-option [value]="'20'">20</md-option>
+                <md-option [value]="'30'">30</md-option>
+                <md-option [value]="'40'">40</md-option>
+                <md-option [value]="'50'">50</md-option>
+              </md-select>
+        </div>
+        <div class="col-md-10">
+            <button md-raised-button color="primary" class="fl-right" (click)="sendSMS()" [disabled]="selected.length == 0">Send SMS</button>
+        </div>
+    </div>
+    <article style="width:100%;height:100%;padding-top:10px" #tableWrapper>
+    <ngx-datatable
+        #table
+        [columnMode]="'force'"
+        class="bootstrap"
+        [rows]="rows"
+        [selected]="selected"
+        [selectionType]="'checkbox'"
+        (select)='onSelect($event)'
+        [messages]="messages"
+        [headerHeight]="35"
+        [rowHeight]="35"
+        [loadingIndicator]="loadingIndicator"
+        [footerHeight]="50"
+        [externalSorting]="true"
+        [externalPaging]="true"
+        [limit]="page.size"
+        [count]="page.totalElements"
+        [offset]="page.pageNumber"
+        (sort)="onSort($event)"
+        (page)='setPage($event)'>
+        <ngx-datatable-column
+            [width]="30"
+            [sortable]="false"
+            [canAutoResize]="false"
+            [draggable]="false"
+            [resizeable]="false"
+            [headerCheckboxable]="false"
+            [checkboxable]="true">
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="customerName" [sortable]="true">
+            <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                <span class="datatable-header-cell-wrapper" (click)="sort()">
+                        Name
+                </span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.customerName}}">{{row.customerName}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  prop="CustomerInvoiceId" [sortable]="true">
+            <ng-template let-column="column" let-sort="sortFn"  ngx-datatable-header-template>
+                <span class="datatable-header-cell-wrapper" (click)="sort()">
+                        Invoice Id
+                </span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.CustomerInvoiceId}}">{{row.CustomerInvoiceId}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="InvoiceDate" [sortable]="true">
+            <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                <span class="datatable-header-cell-wrapper" (click)="sort()">
+                        InvoiceDate
+                </span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.InvoiceDate}}"> &nbsp;&nbsp;{{row.InvoiceDate  | date:'shortDate'}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                InvoiceType
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.InvoiceType}}">{{row.InvoiceType}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  prop="TotalInvoiceAmount" [sortable]="true" >
+            <ng-template let-column="column" let-sort="sortFn"  ngx-datatable-header-template>
+                <span class="datatable-header-cell-wrapper" (click)="sort()">
+                        InvoiceAmount
+                </span>
+                
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.TotalInvoiceAmount}}">{{row.TotalInvoiceAmount}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="DiscountAmount" [sortable]="true">
+            <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                <span class="datatable-header-cell-wrapper" (click)="sort()">
+                        DiscountAmount
+                </span>
+                
+            </ng-template>
+            <ng-template let-row="row"   ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.DiscountAmount}}">{{row.DiscountAmount}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                Invoice PDF
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.lastTransactionDate}}">
+                    <a *ngIf="row.PDFPath" (click)="download(row.MerchantBranchId, row.PDFPath)"><i class="fa fa-download"></i></a>
+                </span>
+            </ng-template>
+        </ngx-datatable-column>
+           </ngx-datatable>
+    </article>
+</ni-card>

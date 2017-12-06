@@ -1,0 +1,62 @@
+<div class="navbar-wrap">
+  <div class="navbar-header">
+    <i class="icon fa fa-times-circle-o pull-left" style="font-size:22px;" (click)="close($event)"></i>
+    {{ title }}
+  </div>
+
+  <div class="navbar-content" *ngIf="isSendSMS && !isUpload">
+    <div class="row">
+      <div class="col-md-6">
+        <form [formGroup]="smsForm">
+          <div class="row">
+            <div class="col-md-12">
+              <md-input-container class="mb-6">
+                <input mdInput placeholder="campaignName" [formControl]="smsForm.controls['campaignName']">
+                <small *ngIf="smsForm.controls['campaignName'].hasError('required') &&  smsForm.controls['campaignName'].touched" class="form-message text-danger">You must include a campaign name.</small>
+                <small *ngIf="smsForm.controls['campaignName'].hasError('minlength') && smsForm.controls['campaignName'].touched" class="form-message text-danger">Your campaign name must be at least 5 characters long.</small>
+                <small *ngIf="smsForm.controls['campaignName'].hasError('maxlength') && smsForm.controls['campaignName'].touched" class="form-message text-danger">Your campaign name cannot exceed 15 characters.</small>
+              </md-input-container>
+            </div>
+            <br>
+            <div class="col-md-12">
+            <div class="checkbox">
+                <label>
+                   <input type="checkbox" (change)="handleChangeContent($event)" > 
+                       Append Name(15 chars are reserved)
+                </label>
+            </div>
+          </div>
+            <div class="col-md-12">
+              <md-input-container class="mb-6">
+                <!-- <input mdInput placeholder="campaign Text" [formControl]="smsForm.controls['campaignText']"> -->
+                <textarea mdInput placeholder="campaign Text" [formControl]="smsForm.controls['campaignText']"></textarea>
+                <small *ngIf="smsForm.controls['campaignText'].hasError('required') && smsForm.controls['campaignText'].touched" class="form-message text-danger">You must include an campaignText.</small>
+                <small *ngIf="smsForm.controls['campaignText'].hasError('minlength') && smsForm.controls['campaignText'].touched" class="form-message text-danger">Your campaign name must be at least 1 characters long.</small>
+                <small *ngIf="smsForm.controls['campaignText'].hasError('maxlength') && smsForm.controls['campaignText'].touched" class="form-message text-danger">Your campaign name cannot exceed 320 characters.</small>
+              </md-input-container>
+            </div>
+          </div>
+          <br/>
+          <button md-raised-button color="accent" (click)="sendSMS()" type="button" [disabled]="!smsForm.valid">Send</button>
+
+          <button md-raised-button color="accent" type="button" (click)="close($event)">Cancel</button>
+
+        </form>
+      </div>
+
+      <div class="col-md-6">
+        Selected Customers  
+        <table id="customers">
+            <tr *ngFor="let c of selected; let i=index">
+              <td>
+                {{ c.FirstName }}
+              </td>
+              <td class="pl-5">
+                  {{ c.PrimaryPhone }}
+                </td>
+            </tr>
+          </table>
+        </div>
+    </div>
+  </div>
+</div>

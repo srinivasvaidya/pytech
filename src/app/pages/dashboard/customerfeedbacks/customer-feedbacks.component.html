@@ -1,0 +1,18 @@
+<br >
+<div class="row" *ngIf="custFeedbacks && custFeedbacks.length > 0">
+    <div class="col-md-6" *ngFor="let cf of custFeedbacks; let i = index">
+        <ni-card [bgColor]="'success'" [outline]="true" class="success-card">
+            <md-icon title="delete" class="deleteIcon" (click)="deleteFeedback(cf)">delete</md-icon>
+            <h5 class="mt-0 title">{{cf.Feedback}}</h5>
+            <div class="count">Rating : {{cf.Rating}}</div>
+            <small>Phone Number : {{cf.PhoneNumber}}</small>
+        </ni-card>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6" *ngIf="custFeedbacks && custFeedbacks.length == 0">
+        <h4> No Feedbacks available.</h4>
+    </div>
+</div>

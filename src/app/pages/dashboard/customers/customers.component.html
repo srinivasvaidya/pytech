@@ -1,0 +1,184 @@
+<ni-card>
+    <customer-side-navbar 
+    [title] = "title"
+    [showOrHide]="showOrHide" 
+    [isUpload]="isUpload"
+    [isSendSMS]="isSendSMS"
+    [selected]="selected"
+    (saveEvent)="saveModel($event)"
+    [page]="page"
+    (closeEvent)="closeForm(param)"></customer-side-navbar>
+    <div class="row">
+        <div class="col-md-6 col-lg-9" >
+            <md-input-container class="top-5">
+                <input mdInput placeholder="Search" value="" #searchTerm  (input)="performSearch(searchTerm)" >
+            </md-input-container>
+        </div>
+        <div class="col-md-2 col-lg-1" >
+            <button  md-raised-button color="primary" *ngIf="permissions && permissions.customers && permissions.customers.add" (click)="addCustomer()">Add</button> &nbsp; &nbsp;
+                    <!-- [hasPermission]="['admin']" 
+                    [onAuthorizedPermission]="showComponent" 
+                    [onUnauthorizedPermission]="hideComponent"  -->
+                    
+        </div>
+        <div class="col-md-2  col-lg-1" >
+            <button md-raised-button color="primary" (click)="uploadCustomers()">Upload</button> 
+                    <!--
+                    [hasPermission]="['admin']" 
+                    [onAuthorizedPermission]="showComponent" 
+                    [onUnauthorizedPermission]="hideComponent"  
+                     &nbsp; &nbsp;
+                    -->
+        </div>
+        <div class="col-md-2 col-lg-1" >
+            <button  md-raised-button color="primary">Excel</button>
+                    <!--[hasPermission]="['admin']" 
+                    [onAuthorizedPermission]="showComponent" 
+                    [onUnauthorizedPermission]="hideComponent" -->  
+                    
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <md-select style="margin-top:20px;width:100%" (change)="changePage($event)" placeholder="Select Trigger">
+                <md-option [value]="'10'">10</md-option>
+                <md-option [value]="'20'">20</md-option>
+                <md-option [value]="'30'">30</md-option>
+                <md-option [value]="'40'">40</md-option>
+                <md-option [value]="'50'">50</md-option>
+              </md-select>
+        </div>
+        <div class="col-md-10">
+            <button md-raised-button color="primary" class="fl-right" (click)="sendSMS()" [disabled]="selected.length == 0">Send SMS</button>
+        </div>
+    </div>
+    <article style="width:100%;padding-top:10px" #tableWrapper>
+    <ngx-datatable
+        #table
+        [columnMode]="'force'"
+        class="bootstrap"
+        [rows]="rows"
+        [selected]="selected"
+        [selectionType]="'checkbox'"
+        (select)='onSelect($event)'
+        [headerHeight]="35"
+        [rowHeight]="35"
+        [loadingIndicator]="loadingIndicator"
+        [messages]="messages"
+        [footerHeight]="50"
+        [externalSorting]="true"
+        [externalPaging]="true"
+        [limit]="page.size"
+        [count]="page.totalElements"
+        [offset]="page.pageNumber"
+        (sort)="onSort($event)"
+        (page)='setPage($event)'>
+        <ngx-datatable-column
+            [width]="30"
+            [sortable]="false"
+            [canAutoResize]="false"
+            [draggable]="false"
+            [resizeable]="false"
+            [headerCheckboxable]="true"
+            [checkboxable]="true"  
+                      
+            >
+               
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="FirstName" [sortable]="true">
+            <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                <span class="datatable-header-cell-wrapper" (click)="sort()">
+                        Name
+                </span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.FirstName}} {{row.LastName}}">{{row.FirstName}} {{row.LastName}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  prop="primaryPhone" [sortable]="true">
+            <ng-template let-column="column" let-sort="sortFn"  ngx-datatable-header-template>
+                <span class="datatable-header-cell-wrapper" (click)="sort()">
+                        Phone
+                </span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.PrimaryPhone}}">{{row.PrimaryPhone}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="Email" [sortable]="true">
+            <ng-template let-column="column" let-sort="sortFn"  ngx-datatable-header-template>
+                Email
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.Email}}">{{row.Email}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                Address
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.Address1}}">{{row.Address1}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column >
+            <ng-template let-column="column" ngx-datatable-header-template>
+                Birthday
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.BirthDay}} {{row.BirthMonth}}">{{row.BirthDay}} {{row.BirthMonth}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                Anniversary
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.AnnivDay}} {{row.AnnivMonth}}">{{row.AnnivDay}} {{row.AnnivMonth}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                Last Transaction Date
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.lastTransactionDate}}"> &nbsp;&nbsp;{{row.lastTransactionDate  | date:'shortDate'}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                Total Transaction Amt
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="Rs. {{row.totalAmount}}">Rs. {{row.totalAmount}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <!--ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                Total Transaction Amt
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title=""></span>
+            </ng-template>
+        </ngx-datatable-column-->
+
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                Not seen for    
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.lastSeenFor}}">{{row.lastSeenFor}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                #Transactions
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.totalTransactions}}">{{row.totalTransactions}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+    </article>
+</ni-card>

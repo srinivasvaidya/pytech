@@ -1,0 +1,227 @@
+<div class="navbar-wrap">
+  <div class="navbar-header">
+    <i class="icon fa fa-times-circle-o pull-left" style="font-size:22px;" (click)="close($event)"></i>
+    {{ title }}
+  </div>
+  <div class="navbar-content" *ngIf="!isUpload && !isSendSMS">
+    <form [formGroup]="customerForm">
+      <div class="row">
+        <div class="col-md-6">
+          <md-input-container class="mb-6">
+            <input mdInput placeholder="First name" [formControl]="customerForm.controls['firstName']">
+            <small *ngIf="customerForm.controls['firstName'].hasError('required') && customerForm.controls['firstName'].touched" class="form-message text-danger">You must include a first name.</small>
+            <small *ngIf="customerForm.controls['firstName'].hasError('minlength') && customerForm.controls['firstName'].touched" class="form-message text-danger">Your first name must be at least 5 characters long.</small>
+            <small *ngIf="customerForm.controls['firstName'].hasError('maxlength') && customerForm.controls['firstName'].touched" class="form-message text-danger">Your first name cannot exceed 10 characters.</small>
+          </md-input-container>
+        </div>
+
+        <div class="col-md-6">
+          <md-input-container class="mb-6">
+            <input mdInput placeholder="Email address" [formControl]="customerForm.controls['email']" type="email">
+            <small *ngIf="customerForm.controls['email'].hasError('required') && customerForm.controls['email'].touched" class="form-message text-danger">You must include an email address.</small>
+            <small *ngIf="customerForm.controls['email'].errors?.email && customerForm.controls['email'].touched" class="form-message text-danger">You must include a valid email address.</small>
+          </md-input-container>
+        </div>
+
+        <div class="col-md-6">
+          <md-input-container class="mb-6">
+            <input mdInput placeholder="Last Name" [formControl]="customerForm.controls['lastName']" type="text">
+            <small *ngIf="customerForm.controls['lastName'].hasError('required') && customerForm.controls['lastName'].touched" class="form-message text-danger">You must include a last name.</small>
+            <!--small *ngIf="customerForm.controls['lastName'].hasError('minlength') && customerForm.controls['lastName'].touched" class="form-message text-danger">Your last name must be at least  characters long.</small-->
+            <small *ngIf="customerForm.controls['lastName'].hasError('maxlength') && customerForm.controls['lastName'].touched" class="form-message text-danger">Your first name cannot exceed 10 characters.</small>
+          </md-input-container>
+        </div>
+        {{customerFormvalid}}
+        <div class="col-md-6">
+          <md-input-container class="mb-6">
+            <input mdInput placeholder="Primary Phone" [formControl]="customerForm.controls['primaryPhone']" type="text">
+            <small *ngIf="customerForm.controls['primaryPhone'].hasError('required') && customerForm.controls['primaryPhone'].touched"
+              class="form-message text-danger">You must include Primary Phone</small>
+            <small *ngIf="customerForm.controls['primaryPhone'].errors?.phone && customerForm.controls['primaryPhone'].touched" class="form-message text-danger">You must include a valid Primary Phone</small>
+          </md-input-container>
+        </div>
+
+        <div class="col-md-6">
+          <md-input-container class="mb-6">
+            <input mdInput placeholder="Company Name" [formControl]="customerForm.controls['companyName']">
+          </md-input-container>
+        </div>
+        <div class="col-md-6">
+          <md-input-container class="mb-6">
+            <input mdInput placeholder="Secondary Phone" [formControl]="customerForm.controls['secondaryPhone']">
+          </md-input-container>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <squeezebox [multiple]="false">
+            <sb-item>
+              <sb-item-head>ADDRESS INFO</sb-item-head>
+              <sb-item-body>
+                <div class="row">
+                  <div class="col-md-6">
+                    <md-input-container class="mb-6">
+                      <input mdInput placeholder="Address Line 1" [formControl]="customerForm.controls['addressLine1']">
+                    </md-input-container>
+                  </div>
+                  <div class="col-md-6">
+                    <md-input-container class="mb-6">
+                      <input mdInput placeholder="State" name="state" [formControl]="customerForm.controls['state']">
+                    </md-input-container>
+                  </div>
+
+                  <div class="col-md-6">
+                    <md-input-container class="mb-6">
+                      <input mdInput placeholder="Address Line 2" [formControl]="customerForm.controls['addressLine2']">
+                    </md-input-container>
+                  </div>
+                  <div class="col-md-6">
+                    <md-input-container class="mb-6">
+                      <input mdInput placeholder="Country" [formControl]="customerForm.controls['country']">
+                    </md-input-container>
+                  </div>
+
+                  <div class="col-md-6">
+                    <md-input-container class="mb-6">
+                      <input mdInput placeholder="City" [formControl]="customerForm.controls['city']">
+                    </md-input-container>
+                  </div>
+                  <div class="col-md-6">
+                    <md-input-container class="mb-6">
+                      <input mdInput placeholder="Zipcode" [formControl]="customerForm.controls['pinCode']">
+                    </md-input-container>
+                  </div>
+
+                </div>
+              </sb-item-body>
+            </sb-item>
+            <sb-item>
+              <sb-item-head>PERSONAL INFO</sb-item-head>
+              <sb-item-body>
+                <div class="row">
+                  <div class="col-md-6">
+                    <br/>
+                    <md-select placeholder="Birth Day">
+                      <md-option *ngFor="let food of days; let ind = index" [value]="ind">
+                        {{ ind }}
+                      </md-option>
+                    </md-select>
+                  </div>
+                  <div class="col-md-6">
+                    <br/>
+                    <md-select placeholder="Birth Month">
+                      <md-option *ngFor="let food of months; let ind = index" [value]="months[ind]">
+                        {{ months[ind] }}
+                      </md-option>
+                    </md-select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <br/>
+                    <md-select placeholder="Anniv Day">
+                      <md-option *ngFor="let i of days; let ind = index" [value]="ind">
+                        {{ ind }}
+                      </md-option>
+                    </md-select>
+                  </div>
+                  <div class="col-md-6">
+                    <br/>
+                    <md-select placeholder="Anniv Month">
+                      <md-option *ngFor="let mon of months;let ind = index" [value]="months[ind]">
+                        {{ months[ind] }}
+                      </md-option>
+                    </md-select>
+                  </div>
+                </div>
+              </sb-item-body>
+            </sb-item>
+          </squeezebox>
+        </div>
+      </div>
+      <br/>
+      <button md-raised-button color="accent" (click)="saveCustomer()" type="button" [disabled]="!customerForm.valid">Save</button>
+      <button md-raised-button color="accent" type="button" (click)="resetCustomer()">Reset</button>
+      <button md-raised-button color="accent" type="button" (click)="close($event)">Cancel</button>
+    </form>
+  </div>
+  <div class="navbar-content" *ngIf="isUpload">
+    <form>
+      <div class="row">
+        <div class="col-md-12">
+          <input type="file" name="fileUpload" ng2FileSelect [uploader]="uploader" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="progress" style="">
+            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button md-raised-button color="accent" (click)="uploadNow()" [disabled]="!uploader.getNotUploadedItems().length" type="button">Upload</button>
+          <button md-raised-button color="accent" type="button" (click)="resetCustomer()">Reset</button>
+          <button md-raised-button color="accent" type="button" (click)="close($event)">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="navbar-content" *ngIf="isSendSMS && !isUpload">
+    <div class="row">
+      <div class="col-md-6">
+        <form [formGroup]="smsForm">
+          <div class="row">
+            <div class="col-md-12">
+              <md-input-container class="mb-6">
+                <input mdInput placeholder="campaignName" [formControl]="smsForm.controls['campaignName']">
+                <small *ngIf="smsForm.controls['campaignName'].hasError('required') &&  smsForm.controls['campaignName'].touched" class="form-message text-danger">You must include a campaign name.</small>
+                <small *ngIf="smsForm.controls['campaignName'].hasError('minlength') && smsForm.controls['campaignName'].touched" class="form-message text-danger">Your campaign name must be at least 5 characters long.</small>
+                <small *ngIf="smsForm.controls['campaignName'].hasError('maxlength') && smsForm.controls['campaignName'].touched" class="form-message text-danger">Your campaign name cannot exceed 15 characters.</small>
+              </md-input-container>
+            </div>
+            <br>
+            <div class="col-md-12">
+                <div class="checkbox">
+                    <label>
+                       <input type="checkbox" (change)="handleChangeContent($event)" > 
+                           Append Name(15 chars are reserved)
+                    </label>
+                </div>
+              </div>
+            <div class="col-md-12">
+              <md-input-container class="mb-6">
+                <!-- <input mdInput placeholder="campaign Text" [formControl]="smsForm.controls['campaignText']"> -->
+                <textarea mdInput placeholder="campaign Text" [formControl]="smsForm.controls['campaignText']"></textarea>
+                <small *ngIf="smsForm.controls['campaignText'].hasError('required') && smsForm.controls['campaignText'].touched" class="form-message text-danger">You must include an campaignText.</small>
+                <small *ngIf="smsForm.controls['campaignText'].hasError('minlength') && smsForm.controls['campaignText'].touched" class="form-message text-danger">Your campaign name must be at least 1 characters long.</small>
+                <small *ngIf="smsForm.controls['campaignText'].hasError('maxlength') && smsForm.controls['campaignText'].touched" class="form-message text-danger">Your campaign name cannot exceed 320 characters.</small>
+              </md-input-container>
+            </div>
+          </div>
+          <br/>
+          <button md-raised-button color="accent" (click)="sendSMS()" type="button" [disabled]="!smsForm.valid">Send</button>
+
+          <button md-raised-button color="accent" type="button" (click)="close($event)">Cancel</button>
+
+        </form>
+      </div>
+
+      <div class="col-md-6">
+        Selected Customers  
+        <table id="customers">
+            <tr *ngFor="let c of selected; let i=index">
+              <td>
+                {{ c.FirstName }}
+              </td>
+              <td class="pl-5">
+                  {{ c.PrimaryPhone }}
+                </td>
+            </tr>
+          </table>
+        </div>
+    </div>
+  </div>
+</div>

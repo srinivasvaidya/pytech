@@ -1,0 +1,18 @@
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.questionWrap {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+    text-overflow: ellipsis;
+}
+
+.deleteIcon {
+    cursor: pointer;
+    float: right;
+    top: -2em;
+    left: 0.57em;
+}

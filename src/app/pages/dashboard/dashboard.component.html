@@ -1,0 +1,115 @@
+<md-tab-group #dashboardTab>
+  <md-tab>
+      <ng-template md-tab-label>
+        <md-icon>dashboard</md-icon> Dashboard
+      </ng-template>
+      <br/>
+      <!--ni-breadcrumb [menu]="breadcrumb" [style]="'custom1'" class="mb-4"></ni-breadcrumb--> 
+      <div class="row">
+          <div class="col-xl-12"><h4>Store</h4></div>
+        <div class="col-xl-12">
+              <div #power style="height:500px"></div>
+        </div>
+        <div class="col-xl-12"><h4>Aggregate</h4></div>
+        <div class="col-xl-12" style="padding-top:20px;">
+              <div #fixedpower style="height:500px"></div>
+        </div>
+      </div>
+</md-tab>
+  <md-tab>
+    <ng-template md-tab-label>
+      <md-icon>search</md-icon> Search
+    </ng-template>
+    <br/>
+    <ni-card [title]="'Search Customer'">
+    <div class="row">
+      <div class="col-md-12">
+          <md-input-container class="md-icon-left">
+            <md-icon>search</md-icon>
+            <input mdInput placeholder="Search Customer by Phone or Name or Email(Atleast 3 chars)" value="">
+          </md-input-container>
+      </div>
+    </div>
+    </ni-card>
+  </md-tab>
+  <md-tab>
+    <ng-template md-tab-label>
+      <md-icon>people_outline</md-icon> Customers
+    </ng-template>
+    <cp-customers #customersView></cp-customers>
+  </md-tab>
+  <md-tab>
+    <ng-template md-tab-label>
+      <md-icon>assignment</md-icon> Transaction
+    </ng-template>
+    <!--ni-card>
+      <div class="row">
+        <div class="col-md-10">&nbsp;</div>
+        <div class="col-md-2">
+          <button md-raised-button color="primary" >Add Transaction</button>
+        </div>
+      </div>
+      <br/>
+      <ngx-datatable
+        [columnMode]="'force'"
+        class="material"
+        [rows]="rows"
+        [columns]="transactionTableColumns"
+        [headerHeight]="35"
+        [rowHeight]="35"
+        [columnMode]="'force'"
+        [limit]="10"
+        [loadingIndicator]="loadingIndicator"
+        [footerHeight]="50">
+      </ngx-datatable>
+      
+    </ni-card-->
+    <cp-transactions #transactionsView></cp-transactions>
+  </md-tab>
+  <md-tab>
+    <ng-template md-tab-label>
+      <md-icon>launch</md-icon> Campaign Planning
+    </ng-template>
+    <cp-campaign #campaignsView></cp-campaign>
+  </md-tab>
+  <md-tab *ngIf="permissions && permissions.campaignsReport && permissions.campaignsReport.show">
+    <ng-template md-tab-label>
+      <md-icon>mail_outline</md-icon> Campaign Reports
+    </ng-template>
+    <!-- <ni-card>
+      <ngx-datatable
+        [columnMode]="'force'"
+        class="material"
+        [rows]="rows"
+        [columns]="campaignReportsTableColumns"
+        [headerHeight]="35"
+        [rowHeight]="35"
+        [columnMode]="'force'"
+        [limit]="10"
+        [loadingIndicator]="loadingIndicator"
+        [footerHeight]="50">
+      </ngx-datatable>
+    </ni-card>
+    -->
+  <cp-campaign-report #campaignsReportView></cp-campaign-report>
+  </md-tab>
+  <!--md-tab>
+    <ng-template md-tab-label>
+      <md-icon>my_library_books</md-icon> Customer Feedback
+    </ng-template>
+    <br/>
+  </md-tab-->
+  <md-tab>
+    <ng-template md-tab-label>
+      <md-icon>my_library_books</md-icon> Feedbacks
+    </ng-template>
+    <customer-feedbacks></customer-feedbacks>
+  </md-tab>
+  <md-tab>
+    <ng-template md-tab-label>
+      <!-- <md-icon>my_library_books</md-icon>  -->
+      Feedback Questions
+    </ng-template>
+    <feedback-questions></feedback-questions>
+  </md-tab>
+</md-tab-group>

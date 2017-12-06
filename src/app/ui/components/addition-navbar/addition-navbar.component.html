@@ -1,0 +1,122 @@
+<a href="#" class="open-navbar" [hidden]="!showOrHide" (click)="close($event)">
+  <i class="icon fa fa-close"></i>
+</a>
+<div class="navbar-wrap">
+  <div class="navbar-header">
+    {{ title }}
+  </div>
+  <div class="navbar-content">
+      <form [formGroup]="customerForm">
+        <div class="row">
+          <div class="col-md-6">
+            <md-input-container class="mb-6">
+              <input mdInput placeholder="First name" [formControl]="customerForm.controls['firstName']">
+              <small *ngIf="customerForm.controls['firstName'].hasError('required') && customerForm.controls['firstName'].touched" class="form-message text-danger">You must include a first name.</small>
+              <small *ngIf="customerForm.controls['firstName'].hasError('minlength') && customerForm.controls['firstName'].touched" class="form-message text-danger">Your first name must be at least 5 characters long.</small>
+              <small *ngIf="customerForm.controls['firstName'].hasError('maxlength') && customerForm.controls['firstName'].touched" class="form-message text-danger">Your first name cannot exceed 10 characters.</small>
+            </md-input-container>
+          </div>
+
+          <div class="col-md-6">
+            <md-input-container class="mb-6">
+              <input mdInput placeholder="Email address" [formControl]="customerForm.controls['email']" type="email">
+              <small *ngIf="customerForm.controls['email'].hasError('required') && customerForm.controls['email'].touched" class="form-message text-danger">You must include an email address.</small>
+              <small *ngIf="customerForm.controls['email'].errors?.email && customerForm.controls['email'].touched" class="form-message text-danger">You must include a valid email address.</small>
+            </md-input-container>
+          </div>
+
+          <div class="col-md-6">
+            <md-input-container class="mb-6">
+              <input mdInput placeholder="Last Name" [formControl]="customerForm.controls['lastName']" type="text">
+              <small *ngIf="customerForm.controls['lastName'].hasError('required') && customerForm.controls['lastName'].touched" class="form-message text-danger">You must include a last name.</small>
+              <!--small *ngIf="customerForm.controls['lastName'].hasError('minlength') && customerForm.controls['lastName'].touched" class="form-message text-danger">Your last name must be at least  characters long.</small-->
+              <small *ngIf="customerForm.controls['lastName'].hasError('maxlength') && customerForm.controls['lastName'].touched" class="form-message text-danger">Your first name cannot exceed 10 characters.</small>
+            </md-input-container>
+          </div>
+          {{customerFormvalid}}
+          <div class="col-md-6">
+            <md-input-container class="mb-6">
+              <input mdInput placeholder="Primary Phone"
+               [formControl]="customerForm.controls['primaryPhone']" type="text">
+              <small *ngIf="customerForm.controls['primaryPhone'].hasError('required') && customerForm.controls['primaryPhone'].touched" class="form-message text-danger">You must include Primary Phone</small>
+              <small *ngIf="customerForm.controls['primaryPhone'].errors?.phone && customerForm.controls['primaryPhone'].touched" class="form-message text-danger">You must include a valid Primary Phone</small>
+            </md-input-container>
+          </div>
+
+          <div class="col-md-6">
+            <md-input-container class="mb-6">
+              <input mdInput placeholder="Company Name" 
+                [formControl]="customerForm.controls['companyName']">
+            </md-input-container>
+          </div>
+          <div class="col-md-6">
+            <md-input-container class="mb-6">
+              <input mdInput placeholder="Secondary Phone" 
+              [formControl]="customerForm.controls['secondaryPhone']">
+            </md-input-container>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <squeezebox [multiple]="false">
+              <sb-item>
+                <sb-item-head>ADDRESS INFO</sb-item-head>
+                <sb-item-body>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <md-input-container class="mb-6">
+                        <input mdInput placeholder="Address Line 1" [formControl]="customerForm.controls['addressLine1']">
+                      </md-input-container>
+                    </div>
+                    <div class="col-md-6">
+                      <md-input-container class="mb-6">
+                        <input mdInput placeholder="State" name="state" [formControl]="customerForm.controls['state']">
+                      </md-input-container>
+                    </div>
+
+                    <div class="col-md-6">
+                      <md-input-container class="mb-6">
+                        <input mdInput placeholder="Address Line 2" [formControl]="customerForm.controls['addressLine2']">
+                      </md-input-container>
+                    </div>
+                    <div class="col-md-6">
+                      <md-input-container class="mb-6">
+                        <input mdInput placeholder="Country" [formControl]="customerForm.controls['country']">
+                      </md-input-container>
+                    </div>
+
+                    <div class="col-md-6">
+                      <md-input-container class="mb-6">
+                        <input mdInput placeholder="City" [formControl]="customerForm.controls['city']">
+                      </md-input-container>
+                    </div>
+                    <div class="col-md-6">
+                      <md-input-container class="mb-6">
+                        <input mdInput placeholder="Zipcode" [formControl]="customerForm.controls['pinCode']">
+                      </md-input-container>
+                    </div>
+
+                  </div>
+                </sb-item-body>
+              </sb-item>
+              <sb-item>
+                <sb-item-head>PERSONAL INFO</sb-item-head>
+                <sb-item-body>
+
+                </sb-item-body>
+              </sb-item>
+            </squeezebox>
+          </div>
+        </div>
+        <button md-raised-button color="accent"
+          (click)="saveCustomer()" 
+          type="button" [disabled]="!customerFormvalid">Save</button>
+        <button md-raised-button color="accent" type="button"
+          (click)="resetCustomer()" >Reset</button>
+        <button md-raised-button color="accent" type="button" (click)="close($event)" >Cancel</button>
+      </form>
+
+
+      
+  </div>
+</div>

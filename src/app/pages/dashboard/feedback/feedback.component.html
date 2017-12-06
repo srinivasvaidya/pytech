@@ -1,0 +1,50 @@
+<ni-card [title]="'CitrinePrime - Feedback'" [align]="'center'">
+    <div class="mui-container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form (ngSubmit)="onSubmit(f.value, f); " novalidate #f="ngForm">
+                    <div *ngFor="let fq of feedbackQuestions; let i = index">
+                        <h5>{{fq.QuestionText}}</h5>
+                        <div class="row">
+                            <!-- <div class="col-md-6">
+                                <md-input-container class="mb-6">
+                                    <input mdInput placeholder="storeCustomerId" type="number" name="storeCustomerId" [(ngModel)]="feedback[i].storeCustomerId">
+                                </md-input-container>
+                            </div>
+                            <div class="col-md-6">
+                                <md-input-container class="mb-6">
+                                    <input mdInput type="text" name="customerInvoiceId" [(ngModel)]="feedback[i].customerInvoiceId" placeholder="customerInvoiceId"
+                                        value="">
+                                </md-input-container>
+                            </div>
+                            <div class="col-md-6">
+                                <md-input-container class="mb-6">
+                                    <input mdInput type="number" name="questionNum" [(ngModel)]="feedback[i].questionNum" placeholder="questionNum" value="">
+                                </md-input-container>
+                            </div> -->
+                            <div class="col-md-6">
+                                <md-input-container class="mb-6">
+                                    <input mdInput type="text" name="feedback" [(ngModel)]="feedback[i].feedback" placeholder="feedback" value="">
+                                </md-input-container>
+                            </div>
+                            <div class="col-md-6" *ngIf="i == 0">
+                                <md-input-container class="mb-6">
+                                    <input mdInput type="number" max="10" name="phoneNumber" #phoneNumber="ngModel" required [(ngModel)]="feedback[i].phoneNumber" placeholder="phoneNumber" value="">
+                                    <small [hidden]="phoneNumber.valid || (phoneNumber.pristine && !f.submitted)" class="text-danger">
+                                            phoneNumber is required.  
+                                    </small>
+                                </md-input-container>
+                            </div>
+                            <div class="col-md-6">
+                                <md-input-container class="mb-6">
+                                    <input mdInput type="number" minlength="1" maxlength="2" name="rating" [(ngModel)]="feedback[i].rating" placeholder="rating" value="">
+                                </md-input-container>
+                            </div>
+                        </div>
+                    </div>
+                    <button *ngIf="feedbackQuestions && feedbackQuestions.length > 0" md-raised-button color="primary" type="submit">Send Feedback</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</ni-card>

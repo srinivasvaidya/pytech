@@ -1,0 +1,41 @@
+<br>
+<div class="row">
+    <div class="col-md-6">
+        <div class="row" *ngIf="feedbackQuestions && feedbackQuestions.length > 0">
+            <div class="col-md-12" *ngFor="let fq of feedbackQuestions; let i = index">
+                <ni-card [bgColor]="'success'" [outline]="true" class="success-card">
+                    <h5 class="mt-0 title " title="{{fq.QuestionText}}"><label class="questionWrap"> {{fq.QuestionText}}</label>
+                        <md-icon title="delete" class="deleteIcon" (click)="deletQuestion(fq)">delete</md-icon>
+                    </h5>
+                    <div class="count">QuestionWeight : {{fq.QuestionWeight}}</div>
+                </ni-card>
+            </div>
+        </div>
+        <h4 *ngIf="feedbackQuestions.length == 0"> No Questions available.</h4>
+    </div>
+
+
+    <div class="col-md-6">
+        <form (ngSubmit)="onSubmit(f.value, f); " novalidate #f="ngForm">
+            <!-- add f.resetForm() to reset the form -->
+            <div class="row">
+                <div class="col-md-12">
+                    <md-input-container class="mb-6">
+                        <input mdInput placeholder="CustomerFeedbackId" #customerFeedbackId="ngModel" type="number" name="customerFeedbackId" [(ngModel)]="feedbackQuestionModel.customerFeedbackId">
+                    </md-input-container>
+                    <md-input-container class="mb-6">
+                        <input mdInput type="text" name="questionText" #questionText="ngModel" required [(ngModel)]="feedbackQuestionModel.questionText" placeholder="QuestionText" value="">
+                        <small [hidden]="questionText.valid || (questionText.pristine && !f.submitted)" class="text-danger">
+                                questionText is required.  
+                        </small>
+                    </md-input-container>
+                    <md-input-container class="mb-6">
+                        <input mdInput type="number" name="questionWeight" [(ngModel)]="feedbackQuestionModel.questionWeight" placeholder="QuestionWeight" value="">
+                    </md-input-container>
+                </div>
+            </div>
+            <button md-raised-button color="primary" type="submit">Save Question</button>
+            <br>
+        </form>
+    </div>
+</div>

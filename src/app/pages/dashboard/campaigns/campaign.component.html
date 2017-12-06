@@ -1,0 +1,126 @@
+<ni-card>
+    <campaign-side-navbar 
+    [title] = "'Add Campaign'"
+    [showOrHide]="showOrHide"
+    [model]="model"
+    (saveEvent)="saveModel($event)"
+    (closeEvent)="closeForm()"></campaign-side-navbar>
+    <div class="row">
+        <div class="col-md-6" >
+            <md-input-container class="top-5">
+                <input mdInput placeholder="Search" #searchTerm  (input)="performSearch(searchTerm)">
+            </md-input-container>
+        </div>
+        <div class="col-md-2" >
+            <!--button md-raised-button color="primary" (click)="performSearch(searchTerm)">
+                <span class="fa fa-search"></span> &nbsp;Search</button>-->
+        </div>
+        <div class="col-md-4" >
+            <!-- 
+                                    [hasPermission]="['admin']" 
+                    [onAuthorizedPermission]="showComponent" 
+                    [onUnauthorizedPermission]="hideComponent"  
+            -->
+            <button  md-raised-button class="pull-right" *ngIf="permissions && permissions.campaigns.add" color="primary" (click)="addCampaign()"><i class="fa fa-plus-circle"></i>&nbsp;Add</button> &nbsp; &nbsp;
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <md-select style="margin-top:20px;width:100%"  (change)="changePage($event)" placeholder="Select Trigger">
+                <md-option [value]="'10'">10</md-option>
+                <md-option [value]="'20'">20</md-option>
+                <md-option [value]="'30'">30</md-option>
+                <md-option [value]="'40'">40</md-option>
+                <md-option [value]="'50'">50</md-option>
+              </md-select>
+        </div>
+    </div>
+    <div style="width:100%;height:100%;padding-top:10px" #tableWrapper>
+    <ngx-datatable
+        #table
+        [columnMode]="'force'"
+        class="bootstrap"
+        [rows]="rows"
+        [messages]="messages"
+        [headerHeight]="35"
+        [rowHeight]="35"
+        [loadingIndicator]="loadingIndicator"
+        [footerHeight]="50"
+        [externalPaging]="true"
+        [limit]="page.size"
+        [count]="page.totalElements"
+        [offset]="page.pageNumber"
+        (sort)="onSort($event)"
+        (page)='setPage($event)'>
+        <ngx-datatable-column prop="CampaignName" [sortable]="true">
+            <ng-template let-column="column" let-sort="sortFn"  ngx-datatable-header-template>
+                <span class="datatable-header-cell-wrapper" (click)="sort()">Name</span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.CampaignName}}">{{row.CampaignName}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="CampaignType" [sortable]="true">
+            <ng-template let-column="column" let-sort="sortFn"  ngx-datatable-header-template>
+                <span class="datatable-header-cell-wrapper" (click)="sort()">Type</span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.CampaignType}}">{{row.CampaignType}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="CampaignTrigger" [sortable]="true">
+            <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                <span class="datatable-header-cell-wrapper" (click)="sort()">Trigger</span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.CampaignTrigger}}">{{row.CampaignTrigger}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                Trigger Value
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.TriggerValue}}">{{row.TriggerValue}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                CampaignText
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.CampaignText}}">{{row.CampaignText}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="CreatedDate" [sortable]="true">
+            <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                <span class="datatable-header-cell-wrapper" (click)="sort()">Created Date</span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.CreatedDate}}">&nbsp;&nbsp;{{row.CreatedDate | date:'shortDate'}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="CreatedBy" [sortable]="true">
+            <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                <span class="datatable-header-cell-wrapper" (click)="sort()">Created By</span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span data-toggle="tooltip" data-placement="top" title="{{row.CreatedBy}}">{{row.CreatedBy}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+                <ngx-datatable-column prop="" [sortable]="false">
+            <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                <span class="datatable-header-cell-wrapper">Action</span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <a class="cc-lnk" role="button" *ngIf="permissions.campaigns.edit" (click)="edit(row)">
+                    <i class="fa fa-pencil-square-o" placement="left"></i>&nbsp;&nbsp;Edit
+                </a>
+                <a class="cc-lnk" role="button" (click)="delete(row)">
+                    <i class="fa fa-trash-o" placement="left"></i>&nbsp;&nbsp;Delete
+                </a>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+    </div>
+</ni-card>

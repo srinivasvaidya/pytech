@@ -1,0 +1,31 @@
+<div class="completer-holder" ctrCompleter>
+    <md-input-container class="completer-input">
+        <input mdInput #searchInput
+            ctrInput="clearSelected=clearSelected; overrideSuggested=overrideSuggested; fillHighlighted=fillHighlighted" 
+            [(ngModel)]="searchStr" (ngModelChange)="onChange($event,searchInput.value)"
+            [attr.name]="inputName" [attr.maxlength]="maxChars" 
+            [tabindex]="fieldTabindex" [disabled]="disableInput" (blur)="onBlur()" [placeholder]="placeholder"
+            autocomplete="off" autocorrect="off" autocapitalize="off">
+    </md-input-container>
+
+    <div class="completer-dropdown-holder" *ctrList="dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;">
+        <md-list class="completer-dropdown" ctrDropdown *ngIf="isInitialized">
+            <md-list-item *ngIf="searchActive && displaySearching" class="completer-searching">{{textSearching}}</md-list-item>
+            <md-list-item *ngIf="!searchActive && (!items || items.length === 0)" class="completer-no-results">{{textNoResults}}</md-list-item>
+            <md-list-item class="completer-row-wrapper" *ngFor="let item of items; let rowIndex=index">
+                <div class="completer-row" [ctrRow]="rowIndex" [dataItem]="item">
+                    <span *ngIf="item.image || item.image === ''" class="completer-image-holder">
+                        <img md-list-avatar *ngIf="item.image != ''" src="{{item.image}}" class="completer-image" />
+                        <span md-list-avatar *ngIf="item.image === ''" class="completer-image-default"></span>
+                    </span>
+                    <p md-line>
+                        <completer-list-item class="completer-title" [text]="item.title" [matchClass]="matchClass" [searchStr]="searchStr" [type]="'title'"></completer-list-item>
+                        <completer-list-item *ngIf="item.description && item.description != ''" class="completer-description" [text]="item.description"
+                            [matchClass]="matchClass" [searchStr]="searchStr" [type]="'description'">
+                        </completer-list-item>
+                    </p>
+                </div>
+            </md-list-item>
+        </md-list>
+    </div>
+</div>

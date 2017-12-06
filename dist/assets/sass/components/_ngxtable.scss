@@ -1,0 +1,188 @@
+.ngx-datatable.material {
+  .datatable-header {
+    background: main-color(500);
+    font-size: 0.75rem;
+    .resize-handle {
+      border-right-color: rgba(#fff,.2);
+    }
+    .datatable-header-cell {
+      color: main-contrast(500);
+      font-weight: bold;
+      border-right:1px solid #777777;
+    }
+  }
+  .datatable-body {
+    font-size: 0.6rem;
+    height: 300px !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    .datatable-scroll {
+      vertical-align: top;
+    }
+    .progress-linear {
+      .container {
+        background-color: #aad1f9;
+        .bar {
+          background-color: #106cc8;
+        }
+      }
+    }
+  }
+  .datatable-footer {
+    font-size: 0.75rem;
+  }
+}
+
+.ngx-datatable.bootstrap {
+  box-shadow: none;
+  font-size: 13px;
+  .datatable-header {
+    height: unset !important;
+    .datatable-header-cell {
+      vertical-align: bottom;
+      padding: 0.35rem;
+      border: 1px solid #d1d4d7;
+      .datatable-header-cell-label {
+        line-height: 24px;
+      }
+    }
+  }
+  .datatable-body {
+    height: 300px !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    .progress-linear {
+      position: fixed !important;
+    }
+    .datatable-body-row {
+      padding: 0.75rem;
+      vertical-align: top;
+      border-top: 1px solid #d1d4d7;
+      &.datatable-row-even {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      &.active {
+        background-color: #1483ff;
+        color: #FFF;
+      }
+      .datatable-body-cell {
+        text-align: left;
+        vertical-align: top;
+        -webkit-user-select: initial!important;
+        -moz-user-select: initial!important;
+        -ms-user-select: initial!important;
+        -o-user-select: initial!important;
+        user-select:initial!important; 
+      }
+    }
+  }
+  .datatable-footer {
+    background: #252d47;
+    color: #ededed;
+    margin-top: -1px;
+    .page-count {
+      line-height: 50px;
+      height: 50px;
+      padding: 0 1.2rem;
+    }
+    .datatable-pager {
+      margin: 0 10px;
+      vertical-align: top;
+      ul {
+        li {
+          margin: 10px 0px;
+          &:not(.disabled) {
+            &.active,
+            &:hover {
+              a {
+                background-color: #009688;
+                font-weight: bold;
+              }
+            }
+          }
+        }
+      }
+      a {
+        height: 22px;
+        min-width: 24px;
+        line-height: 22px;
+        padding: 0;
+        border-radius: 3px;
+        margin: 0 3px;
+        text-align: center;
+        vertical-align: top;
+        text-decoration: none;
+        vertical-align: bottom;
+        color: #ededed;
+      }
+      .datatable-icon-left,
+      .datatable-icon-skip,
+      .datatable-icon-right,
+      .datatable-icon-prev {
+        font-size: 18px;
+        line-height: 27px;
+        padding: 0 3px;
+      }
+    }
+  }
+}
+
+.datatable-checkbox {
+  top: -10px;
+}
+
+
+.ngx-datatable.bootstrap .datatable-body .progress-linear {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 5px;
+    padding: 0;
+    margin: 0;
+    position: absolute; 
+}
+.ngx-datatable.bootstrap .datatable-body .progress-linear .container {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 5px;
+    -webkit-transform: translate(0, 0) scale(1, 1);
+    transform: translate(0, 0) scale(1, 1);
+    background-color: #aad1f9; 
+  }
+.ngx-datatable.bootstrap .datatable-body .progress-linear .container .bar {
+    transition: all .2s linear;
+    -webkit-animation: query 0.8s infinite cubic-bezier(0.39, 0.575, 0.565, 1);
+    animation: query 0.8s infinite cubic-bezier(0.39, 0.575, 0.565, 1);
+    transition: -webkit-transform .2s linear;
+    transition: transform .2s linear;
+    background-color: #106cc8;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px; 
+}
+ 
+
+
+.datatable-checkbox input[type='checkbox']:before {
+    border: 2px solid #009688 !important;
+}
+
+.ngx-datatable.bootstrap .datatable-header .datatable-header-cell .datatable-header-cell-label
+{
+  line-height: 1px;
+}
+
+
+/* allow selection  */
+.ngx-datatable .datatable-body-cell{
+    -webkit-user-select: initial!important;
+    -moz-user-select: initial!important;
+    -ms-user-select: initial!important;
+    -o-user-select: initial!important;
+    user-select:initial!important; 
+  }
